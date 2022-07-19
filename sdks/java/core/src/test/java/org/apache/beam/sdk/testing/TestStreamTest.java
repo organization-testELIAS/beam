@@ -17,6 +17,14 @@
  */
 package org.apache.beam.sdk.testing;
 
+// beam-playground:
+//   name: TestStreamTest
+//   description: Unit-test for the TestStream example.
+//   multifile: false
+//   context_line: 87
+//   categories:
+//     - Streaming
+
 import static org.apache.beam.sdk.transforms.windowing.Window.into;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
@@ -77,7 +85,8 @@ import org.junit.runners.JUnit4;
 
 /** Tests for {@link TestStream}. */
 @RunWith(JUnit4.class)
-// TODO(BEAM-13271): Remove when new version of errorprone is released (2.11.0)
+// TODO(https://github.com/apache/beam/issues/21230): Remove when new version of errorprone is
+// released (2.11.0)
 @SuppressWarnings("unused")
 public class TestStreamTest implements Serializable {
   @Rule public transient TestPipeline p = TestPipeline.create();

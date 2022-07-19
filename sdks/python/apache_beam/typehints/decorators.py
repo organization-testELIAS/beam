@@ -180,12 +180,11 @@ def disable_type_annotations():
   _disable_from_callable = True
 
 
-class IOTypeHints(NamedTuple(
-    'IOTypeHints',
-    [('input_types', Optional[Tuple[Tuple[Any, ...], Dict[str, Any]]]),
-     ('output_types', Optional[Tuple[Tuple[Any, ...], Dict[str, Any]]]),
-     ('origin', List[str])])):
-  """Encapsulates all type hint information about a Dataflow construct.
+TRACEBACK_LIMIT = 5
+
+
+class IOTypeHints(NamedTuple):
+  """Encapsulates all type hint information about a Beam construct.
 
   This should primarily be used via the WithTypeHints mixin class, though
   may also be attached to other objects (such as Python functions).
@@ -198,8 +197,9 @@ class IOTypeHints(NamedTuple(
     origin: (List[str]) Stack of tracebacks of method calls used to create this
       instance.
   """
-
-  traceback_limit = 5
+  input_types: Optional[Tuple[Tuple[Any, ...], Dict[str, Any]]]
+  output_types: Optional[Tuple[Tuple[Any, ...], Dict[str, Any]]]
+  origin: List[str]
 
   @classmethod
   def _make_origin(cls, bases, tb=True, msg=()):
@@ -211,7 +211,7 @@ class IOTypeHints(NamedTuple(
     if tb:
       # Omit this method and the IOTypeHints method that called it.
       num_frames_skip = 2
-      tbs = traceback.format_stack(limit=cls.traceback_limit +
+      tbs = traceback.format_stack(limit=TRACEBACK_LIMIT +
                                    num_frames_skip)[:-num_frames_skip]
       # tb is a list of strings in the form of 'File ...\n[code]\n'. Split into
       # single lines and flatten.
@@ -348,7 +348,7 @@ class IOTypeHints(NamedTuple(
       my_type,            # type: any
       has_my_type,        # type: Callable[[], bool]
       my_key,             # type: str
-      special_containers,   # type: List[Union[PBegin, PDone, PCollection]]
+      special_containers,   # type: List[Union[PBegin, PDone, PCollection]] # noqa: F821
       error_str,          # type: str
       source_str          # type: str
       ):

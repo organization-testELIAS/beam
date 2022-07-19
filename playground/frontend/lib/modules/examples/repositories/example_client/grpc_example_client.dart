@@ -19,10 +19,12 @@
 import 'package:grpc/grpc_web.dart';
 import 'package:playground/api/iis_workaround_channel.dart';
 import 'package:playground/api/v1/api.pbgrpc.dart' as grpc;
+import 'package:playground/config.g.dart';
 import 'package:playground/modules/editor/repository/code_repository/code_client/output_response.dart';
 import 'package:playground/modules/examples/models/category_model.dart';
 import 'package:playground/modules/examples/models/example_model.dart';
 import 'package:playground/modules/examples/repositories/example_client/example_client.dart';
+import 'package:playground/modules/examples/repositories/models/get_example_code_response.dart';
 import 'package:playground/modules/examples/repositories/models/get_example_request.dart';
 import 'package:playground/modules/examples/repositories/models/get_example_response.dart';
 import 'package:playground/modules/examples/repositories/models/get_list_of_examples_request.dart';
@@ -31,15 +33,13 @@ import 'package:playground/modules/sdk/models/sdk.dart';
 import 'package:playground/utils/replace_incorrect_symbols.dart';
 
 class GrpcExampleClient implements ExampleClient {
-  grpc.PlaygroundServiceClient createClient(SDK? sdk) {
-    String apiClientURL = SDK.java.getRoute;
-    // if (sdk != null) {
-    //   apiClientURL = sdk.getRoute;
-    // }
-    IisWorkaroundChannel channel = IisWorkaroundChannel.xhr(
-      Uri.parse(apiClientURL),
+  late final grpc.PlaygroundServiceClient _defaultClient;
+
+  GrpcExampleClient() {
+    final channel = IisWorkaroundChannel.xhr(
+      Uri.parse(kApiClientURL),
     );
-    return grpc.PlaygroundServiceClient(channel);
+    _defaultClient = grpc.PlaygroundServiceClient(channel);
   }
 
   @override
@@ -47,7 +47,7 @@ class GrpcExampleClient implements ExampleClient {
     GetListOfExamplesRequestWrapper request,
   ) {
     return _runSafely(
-      () => createClient(request.sdk)
+      () => _defaultClient
           .getPrecompiledObjects(
               _getListOfExamplesRequestToGrpcRequest(request))
           .then((response) => GetListOfExampleResponse(
@@ -56,22 +56,83 @@ class GrpcExampleClient implements ExampleClient {
   }
 
   @override
-  Future<GetExampleResponse> getExample(GetExampleRequestWrapper request) {
+  Future<GetExampleResponse> getDefaultExample(
+    GetExampleRequestWrapper request,
+  ) {
     return _runSafely(
-      () => createClient(request.sdk)
-          .getPrecompiledObjectCode(_getExampleRequestToGrpcRequest(request))
+      () => _defaultClient
+          .getDefaultPrecompiledObject(
+              _getDefaultExampleRequestToGrpcRequest(request))
           .then((response) =>
-              GetExampleResponse(replaceIncorrectSymbols(response.code))),
+              GetExampleResponse(_toExampleModel(response.precompiledObject))),
+    );
+  }
+
+  @override
+  Future<GetExampleResponse> getExample(
+    GetExampleRequestWrapper request,
+  ) {
+    return _runSafely(
+      () => _defaultClient
+          .getPrecompiledObject(
+              grpc.GetPrecompiledObjectRequest()..cloudPath = request.path)
+          .then((response) =>
+              GetExampleResponse(_toExampleModel(response.precompiledObject))),
+    );
+  }
+
+  @override
+  Future<GetExampleCodeResponse> getExampleSource(
+      GetExampleRequestWrapper request) {
+    return _runSafely(
+      () => _defaultClient
+          .getPrecompiledObjectCode(
+              _getExampleCodeRequestToGrpcRequest(request))
+          .then((response) =>
+              GetExampleCodeResponse(replaceIncorrectSymbols(response.code))),
     );
   }
 
   @override
   Future<OutputResponse> getExampleOutput(GetExampleRequestWrapper request) {
     return _runSafely(
-      () => createClient(request.sdk)
-          .getPrecompiledObjectOutput(_getExampleRequestToGrpcRequest(request))
+      () => _defaultClient
+          .getPrecompiledObjectOutput(
+              _getExampleOutputRequestToGrpcRequest(request))
           .then((response) =>
-              OutputResponse(replaceIncorrectSymbols(response.output))),
+              OutputResponse(replaceIncorrectSymbols(response.output)))
+          .catchError((err) {
+        print(err);
+        return OutputResponse('');
+      }),
+    );
+  }
+
+  @override
+  Future<OutputResponse> getExampleLogs(GetExampleRequestWrapper request) {
+    return _runSafely(
+      () => _defaultClient
+          .getPrecompiledObjectLogs(_getExampleLogRequestToGrpcRequest(request))
+          .then((response) =>
+              OutputResponse(replaceIncorrectSymbols(response.output)))
+          .catchError((err) {
+        print(err);
+        return OutputResponse('');
+      }),
+    );
+  }
+
+  @override
+  Future<OutputResponse> getExampleGraph(GetExampleRequestWrapper request) {
+    return _runSafely(
+      () => _defaultClient
+          .getPrecompiledObjectGraph(
+              _getExampleGraphRequestToGrpcRequest(request))
+          .then((response) => OutputResponse(response.graph))
+          .catchError((err) {
+        print(err);
+        return OutputResponse('');
+      }),
     );
   }
 
@@ -93,10 +154,36 @@ class GrpcExampleClient implements ExampleClient {
           : _getGrpcSdk(request.sdk!);
   }
 
-  grpc.GetPrecompiledObjectRequest _getExampleRequestToGrpcRequest(
+  grpc.GetDefaultPrecompiledObjectRequest
+      _getDefaultExampleRequestToGrpcRequest(
     GetExampleRequestWrapper request,
   ) {
-    return grpc.GetPrecompiledObjectRequest()..cloudPath = request.path;
+    return grpc.GetDefaultPrecompiledObjectRequest()
+      ..sdk = _getGrpcSdk(request.sdk);
+  }
+
+  grpc.GetPrecompiledObjectCodeRequest _getExampleCodeRequestToGrpcRequest(
+    GetExampleRequestWrapper request,
+  ) {
+    return grpc.GetPrecompiledObjectCodeRequest()..cloudPath = request.path;
+  }
+
+  grpc.GetPrecompiledObjectOutputRequest _getExampleOutputRequestToGrpcRequest(
+    GetExampleRequestWrapper request,
+  ) {
+    return grpc.GetPrecompiledObjectOutputRequest()..cloudPath = request.path;
+  }
+
+  grpc.GetPrecompiledObjectLogsRequest _getExampleLogRequestToGrpcRequest(
+    GetExampleRequestWrapper request,
+  ) {
+    return grpc.GetPrecompiledObjectLogsRequest()..cloudPath = request.path;
+  }
+
+  grpc.GetPrecompiledObjectGraphRequest _getExampleGraphRequestToGrpcRequest(
+    GetExampleRequestWrapper request,
+  ) {
+    return grpc.GetPrecompiledObjectGraphRequest()..cloudPath = request.path;
   }
 
   grpc.Sdk _getGrpcSdk(SDK sdk) {
@@ -153,13 +240,14 @@ class GrpcExampleClient implements ExampleClient {
       for (var category in sdkMap.categories) {
         List<ExampleModel> examples = category.precompiledObjects
             .map((example) => _toExampleModel(example))
-            .toList();
+            .toList()
+          ..sort();
         categoriesForSdk.add(CategoryModel(
           name: category.categoryName,
           examples: examples,
         ));
       }
-      entries.add(MapEntry(sdk, categoriesForSdk));
+      entries.add(MapEntry(sdk, categoriesForSdk..sort()));
     }
     sdkCategoriesMap.addEntries(entries);
     return sdkCategoriesMap;
@@ -171,7 +259,10 @@ class GrpcExampleClient implements ExampleClient {
       description: example.description,
       type: _exampleTypeFromString(example.type),
       path: example.cloudPath,
+      contextLine: example.contextLine,
       pipelineOptions: example.pipelineOptions,
+      isMultiFile: example.multifile,
+      link: example.link,
     );
   }
 }

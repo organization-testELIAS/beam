@@ -29,6 +29,7 @@ from io import StringIO
 
 import pandas as pd
 import pandas.testing
+import pyarrow
 import pytest
 from pandas.testing import assert_frame_equal
 from parameterized import parameterized
@@ -40,6 +41,10 @@ from apache_beam.io import restriction_trackers
 from apache_beam.testing.util import assert_that
 from apache_beam.testing.util import equal_to
 
+# Get major, minor version
+PD_VERSION = tuple(map(int, pd.__version__.split('.')[0:2]))
+PYARROW_VERSION = tuple(map(int, pyarrow.__version__.split('.')[0:2]))
+
 
 class SimpleRow(typing.NamedTuple):
   value: int
@@ -50,7 +55,9 @@ class MyRow(typing.NamedTuple):
   value: int
 
 
-@unittest.skipIf(platform.system() == 'Windows', 'BEAM-10929')
+@unittest.skipIf(
+    platform.system() == 'Windows',
+    'https://github.com/apache/beam/issues/20642')
 class IOTest(unittest.TestCase):
   def setUp(self):
     self._temp_roots = []
@@ -101,6 +108,9 @@ A     B
                           set(self.read_all_lines(output + 'out.csv*')))
 
   @pytest.mark.uses_pyarrow
+  @unittest.skipIf(
+      PD_VERSION >= (1, 4) and PYARROW_VERSION < (1, 0),
+      "pandas 1.4 requires at least pyarrow 1.0.1")
   def test_read_write_parquet(self):
     self._run_read_write_test(
         'parquet', {}, {}, dict(check_index=False), ['pyarrow'])

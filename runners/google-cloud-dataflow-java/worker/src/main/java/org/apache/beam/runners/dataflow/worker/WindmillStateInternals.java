@@ -83,7 +83,7 @@ import org.apache.beam.sdk.transforms.windowing.TimestampCombiner;
 import org.apache.beam.sdk.util.CombineFnUtil;
 import org.apache.beam.sdk.util.Weighted;
 import org.apache.beam.sdk.values.TimestampedValue;
-import org.apache.beam.vendor.grpc.v1p36p0.com.google.protobuf.ByteString;
+import org.apache.beam.vendor.grpc.v1p43p2.com.google.protobuf.ByteString;
 import org.apache.beam.vendor.guava.v26_0_jre.com.google.common.annotations.VisibleForTesting;
 import org.apache.beam.vendor.guava.v26_0_jre.com.google.common.base.Optional;
 import org.apache.beam.vendor.guava.v26_0_jre.com.google.common.base.Preconditions;
@@ -108,8 +108,8 @@ import org.joda.time.Instant;
 
 /** Implementation of {@link StateInternals} using Windmill to manage the underlying data. */
 @SuppressWarnings({
-  "rawtypes", // TODO(https://issues.apache.org/jira/browse/BEAM-10556)
-  "nullness" // TODO(https://issues.apache.org/jira/browse/BEAM-10402)
+  "rawtypes", // TODO(https://github.com/apache/beam/issues/20447)
+  "nullness" // TODO(https://github.com/apache/beam/issues/20497)
 })
 class WindmillStateInternals<K> implements StateInternals {
 
@@ -1786,7 +1786,7 @@ class WindmillStateInternals<K> implements StateInternals {
 
     private boolean cleared = false;
     /**
-     * If non-{@literal null}, the known current hold value, or absent if we know the there are no
+     * If non-{@literal null}, the known current hold value, or absent if we know there are no
      * output watermark holds. If {@literal null}, the current hold value could depend on holds in
      * Windmill we do not yet know.
      */

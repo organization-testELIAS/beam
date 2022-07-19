@@ -27,7 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import org.apache.beam.sdk.coders.Coder;
-import org.apache.beam.vendor.grpc.v1p36p0.com.google.protobuf.ByteString;
+import org.apache.beam.vendor.grpc.v1p43p2.com.google.protobuf.ByteString;
 
 /**
  * {@link DataStreamDecoder} treats multiple {@link ByteString}s as a single input stream decoding
@@ -35,8 +35,8 @@ import org.apache.beam.vendor.grpc.v1p36p0.com.google.protobuf.ByteString;
  * OutputStream} as multiple {@link ByteString}s.
  */
 @SuppressWarnings({
-  "rawtypes", // TODO(https://issues.apache.org/jira/browse/BEAM-10556)
-  "nullness" // TODO(https://issues.apache.org/jira/browse/BEAM-10402)
+  "rawtypes", // TODO(https://github.com/apache/beam/issues/20447)
+  "nullness" // TODO(https://github.com/apache/beam/issues/20497)
 })
 public class DataStreams {
   public static final int DEFAULT_OUTBOUND_BUFFER_LIMIT_BYTES = 1_000_000;
@@ -181,12 +181,14 @@ public class DataStreams {
       this.inbound = new Inbound();
     }
 
-    public void seekToNextByteString() {
+    /**
+     * Skips any remaining bytes in the current {@link ByteString} moving to the next {@link
+     * ByteString} in the underlying {@link ByteString} {@link Iterator iterator} and decoding
+     * elements till at the next boundary.
+     */
+    public List<T> decodeFromChunkBoundaryToChunkBoundary() {
       inbound.currentStream = inputByteStrings.next().newInput();
       inbound.position = 0;
-    }
-
-    public List<T> decodeTillAtChunkBoundary() {
       try {
         InputStream previousStream = inbound.currentStream;
         List<T> rvals = new ArrayList<>();
