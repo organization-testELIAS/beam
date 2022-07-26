@@ -49,6 +49,7 @@ public class DebeziumIOPostgresSqlConnectorIT {
           .withPassword("dbz")
           .withUsername("debezium")
           .withExposedPorts(5432)
+          .withEnv("TESTCONTAINERS_RYUK_DISABLED", "true")
           .withDatabaseName("inventory");
 
   /**
