@@ -128,6 +128,11 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: '1.16.12'
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: 8
       - name: Run WordCount Unix
         uses: ./.github/actions/gradle-command-action
         with:
@@ -172,9 +177,10 @@ jobs:
           service_account_key: ${{ secrets.GCP_SA_KEY }}
           project_id: ${{ secrets.GCP_PROJECT_ID }}
           export_default_credentials: true
-      - name: Set Java Version
-        uses: actions/setup-java@v1
+      - name: Setup Java
+        uses: actions/setup-java@v3
         with:
+          distribution: 'temurin'
           java-version: 8
       - name: Remove default github maven configuration
         # This step is a workaround to avoid a decryption issue of Beam's
