@@ -51,8 +51,6 @@ public class DebeziumIOMySqlConnectorIT {
           .withPassword("debezium")
           .withUsername("mysqluser")
           .withExposedPorts(3306)
-          .withEnv("TESTCONTAINERS_RYUK_DISABLED", "true")
-          .withEnv("TESTCONTAINERS_HOST_OVERRIDE", "docker.svc.local")
           .waitingFor(
               new HttpWaitStrategy()
                   .forPort(3306)
