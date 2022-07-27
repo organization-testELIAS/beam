@@ -24,10 +24,10 @@ on:
   schedule:
     - cron: '0 */6 * * *'
   push:
-    branches: ['master', 'release-*']
+    branches: ['main', 'release-*']
     tags: 'v*'
   pull_request:
-    branches: ['master', 'release-*']
+    branches: ['main', 'release-*']
     tags: 'v*'
     paths: ['^model/.*$',
             '^sdks/java/.*$',
@@ -44,7 +44,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        java: [ '8', '11', '17' ]
+        java: [ '8', '11'] #Skipping Java 17 due to new access options added in JDK 16 and onwards.
     timeout-minutes: 60
     steps:
       - name: Checkout code
@@ -61,4 +61,4 @@ jobs:
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
           gradle-command: :sdks:java:io:debezium:integrationTest
-          gradle-switches: "-PdisableSpotlessCheck=true -PdisableCheckStyle=true --info"
+          gradle-switches: "-PskipCheckerFramework -PdisableSpotlessCheck=true -PdisableCheckStyle=true --info"
