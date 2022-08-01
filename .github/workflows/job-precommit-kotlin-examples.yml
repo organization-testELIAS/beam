@@ -29,13 +29,13 @@ on:
   pull_request:
     branches: ['main', 'release-*']
     tags: 'v*'
-    paths: ['^model/.*$',
-            '^sdks/java/.*$',
-            '^runners/flink/.*$',
-            '^runners/spark/.*$',
-            '^runners/direct-java/.*$',
-            '^examples/kotlin/.*$',
-            '^release/.*$']
+    paths: ['model/**',
+            'sdks/java/**',
+            'runners/flink/**',
+            'runners/spark/**',
+            'runners/direct-java/**',
+            'examples/kotlin/**',
+            'release/**']
 
 
 jobs:

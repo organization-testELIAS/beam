@@ -29,7 +29,7 @@ on:
   pull_request:
     branches: ['main', 'release-*']
     tags: 'v*'
-    paths: ['^sdks/java/extensions/sql.*$']
+    paths: ['sdks/java/extensions/sql**']
 
 
 jobs:

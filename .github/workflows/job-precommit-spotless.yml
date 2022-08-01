@@ -26,11 +26,11 @@ on:
   pull_request:
     branches: ['main', 'release-*']
     tags: 'v*'
-    paths: ['^buildSrc/.*$',
-            '^sdks/java/.*$',
-            '^runners/.*$',
-            '^examples/java/.*$',
-            '^examples/kotlin/.*$']
+    paths: ['buildSrc/**',
+            'sdks/java/**',
+            'runners/**',
+            'examples/java/**',
+            'examples/kotlin/**']
 
 jobs:
   spotless:

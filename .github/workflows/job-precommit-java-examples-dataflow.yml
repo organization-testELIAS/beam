@@ -29,12 +29,12 @@ on:
   pull_request:
     branches: ['main', 'release-*']
     tags: 'v*'
-    paths: ['^model/.*$',
-            '^sdks/java/.*$',
-            '^runners/google-cloud-dataflow-java/.*$',
-            '^examples/java/.*$',
-            '^examples/kotlin/.*$',
-            '^release/.*$']
+    paths: ['model/**',
+            'sdks/java/**',
+            'runners/google-cloud-dataflow-java/**',
+            'examples/java/**',
+            'examples/kotlin/**',
+            'release/**']
 
 
 jobs:
