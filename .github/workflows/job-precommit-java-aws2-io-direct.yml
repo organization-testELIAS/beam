@@ -29,7 +29,7 @@ on:
   pull_request:
     branches: ['main', 'release-*']
     tags: 'v*'
-    paths: ['^sdks/java/io/amazon-web-services2/.*$']
+    paths: ['sdks/java/io/amazon-web-services2/**']
 
 
 jobs:

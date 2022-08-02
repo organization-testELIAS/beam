@@ -28,7 +28,7 @@ on:
   pull_request:
     branches: ['main', 'release-*']
     tags: 'v*'
-    paths: ['^sdks/go.*$', '^model/.*$', '^release/.*$']
+    paths: ['sdks/go**', 'model/**', 'release/**']
 
 jobs:
   go-precommit:
