@@ -52,6 +52,10 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
+#      - name: Run :sdks:java:io:google-cloud-platform:test in Java-${{ matrix.java }}
+#        uses: ./.github/actions/gradle-command-self-hosted-action
+#        with:
+#          gradle-command: :sdks:java:io:google-cloud-platform:test
       - name: Run :sdks:java:io:google-cloud-platform:postCommit in Java-${{ matrix.java }}
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
