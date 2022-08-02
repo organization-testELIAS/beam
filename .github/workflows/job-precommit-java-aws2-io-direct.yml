@@ -52,6 +52,10 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
+#      - name: Run :sdks:java:io:amazon-web-services2:test in Java-${{ matrix.java }}
+#        uses: ./.github/actions/gradle-command-self-hosted-action
+#        with:
+#          gradle-command: :sdks:java:io:amazon-web-services2:test
       - name: Run sdks:java:io:amazon-web-services2:integrationTest in Java-${{ matrix.java }}
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
