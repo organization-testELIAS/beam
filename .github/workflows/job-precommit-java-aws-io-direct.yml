@@ -52,8 +52,12 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
-      - name: Run :sdks:java:io:amazon-web-services:integrationTest in Java-${{ matrix.java }}
+#      - name: Run :sdks:java:io:amazon-web-services:integrationTest in Java-${{ matrix.java }}
+#        uses: ./.github/actions/gradle-command-self-hosted-action
+#        with:
+#          gradle-command: :sdks:java:io:amazon-web-services:integrationTest
+#          gradle-switches: "-PdisableSpotlessCheck=true -PdisableCheckStyle=true --info"
+      - name: Run :sdks:java:io:amazon-web-services:test in Java-${{ matrix.java }}
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
-          gradle-command: :sdks:java:io:amazon-web-services:integrationTest
-          gradle-switches: "-PdisableSpotlessCheck=true -PdisableCheckStyle=true --info"
+          gradle-command: :sdks:java:io:amazon-web-services:test
