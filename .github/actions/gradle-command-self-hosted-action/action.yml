@@ -14,9 +14,10 @@ runs:
       uses: actions/setup-python@v2
       with:
         python-version: "3.8"
-    - name: Set Java Version
-      uses: actions/setup-java@v1
+    - name: Setup Java
+      uses: actions/setup-java@v3
       with:
+        distribution: 'temurin'
         java-version: 8
     - name: Install Go
       uses: actions/setup-go@v3
