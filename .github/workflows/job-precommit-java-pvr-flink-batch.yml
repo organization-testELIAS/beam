@@ -41,7 +41,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        java: ['8', '11'] #Skipping Java 17 due to new access options added in JDK 16 and onwards.
+        java: ['8'] #Skipping Java 17 due to new access options added in JDK 16 and onwards.
         flink: ['1.13', '1.14', '1.15']
     timeout-minutes: 480
     steps:
