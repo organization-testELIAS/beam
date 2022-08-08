@@ -210,9 +210,9 @@ def portableValidatesRunnerTask(String name, boolean streaming, boolean checkpoi
 }
 
 project.ext.validatesPortableRunnerDocker = portableValidatesRunnerTask("Docker", false, false, true)
-project.ext.validatesPortableRunnerBatch = portableValidatesRunnerTask("Batch", false, false, false)
-project.ext.validatesPortableRunnerStreaming = portableValidatesRunnerTask("Streaming", true, false, false)
-project.ext.validatesPortableRunnerStreamingCheckpoint = portableValidatesRunnerTask("StreamingCheckpointing", true, true, false)
+project.ext.validatesPortableRunnerBatch = portableValidatesRunnerTask("Batch", false, false, true)
+project.ext.validatesPortableRunnerStreaming = portableValidatesRunnerTask("Streaming", true, false, true)
+project.ext.validatesPortableRunnerStreamingCheckpoint = portableValidatesRunnerTask("StreamingCheckpointing", true, true, true)
 
 tasks.register("validatesPortableRunner") {
   dependsOn validatesPortableRunnerDocker
