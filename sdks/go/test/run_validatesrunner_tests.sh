@@ -95,6 +95,7 @@ GCS_SUBFOLDER="test$RANDOM"
 
 # Project for the container and integration test
 PROJECT=apache-beam-testing
+USER=beam-sdk
 DATAFLOW_PROJECT=apache-beam-testing
 REGION=us-central1
 
