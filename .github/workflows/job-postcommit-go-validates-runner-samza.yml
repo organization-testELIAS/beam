@@ -29,15 +29,13 @@ jobs:
     name: Run Go PostCommit Validates Runner Samza
     runs-on: self-hosted
     steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v2
-#        with:
-#          persist-credentials: false
-#          submodules: recursive
-      - name: List home dir contents
-        run: ls -la /home/actions/.config/gcloud
-#      - name: Run :sdks:go:test:samzaValidatesRunner
-#        uses: ./.github/actions/gradle-command-self-hosted-action
-#        with:
-#          gradle-command: :sdks:go:test:samzaValidatesRunner
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          submodules: recursive
+      - name: Run :sdks:go:test:samzaValidatesRunner
+        uses: ./.github/actions/gradle-command-self-hosted-action
+        with:
+          gradle-command: :sdks:go:test:samzaValidatesRunner
 
