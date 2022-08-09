@@ -35,7 +35,7 @@ jobs:
 #          persist-credentials: false
 #          submodules: recursive
       - name: List home dir contents
-        run: ls -la /home/actions/.config
+        run: ls -la /home/actions/.config/gcloud
 #      - name: Run :sdks:go:test:samzaValidatesRunner
 #        uses: ./.github/actions/gradle-command-self-hosted-action
 #        with:
