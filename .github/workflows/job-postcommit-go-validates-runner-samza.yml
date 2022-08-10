@@ -27,7 +27,7 @@ on:
 jobs:
   go-postcommit-vr-samza:
     name: Run Go PostCommit Validates Runner Samza
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
