@@ -20,7 +20,7 @@
 name: PostCommit Java Examples Dataflow v2
 
 on:
-  workflow_run:
+  workflow_dispatch:
   schedule:
     - cron: '0 */6 * * *'
 
