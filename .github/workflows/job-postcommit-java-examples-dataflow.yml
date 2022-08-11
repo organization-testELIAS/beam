@@ -31,7 +31,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        java: [ '11', '17' ]
+        java: [ '17' ]
     steps:
       - name: Get number of available processors
         id: get_available_processors
