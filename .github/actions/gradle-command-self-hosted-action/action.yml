@@ -31,4 +31,4 @@ runs:
       run: rm ~/.m2/settings.xml
     - name: Run :preCommitJob
       shell: bash
-      run: ./gradlew ${{ inputs.gradle-command }} ${{ inputs.gradle-switches }}
+      run: ./gradlew ${{ inputs.gradle-command }} ${{ inputs.gradle-switches }} --continue -Pdocker-pull-licenses

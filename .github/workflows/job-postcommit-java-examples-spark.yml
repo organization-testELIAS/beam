@@ -51,5 +51,5 @@ jobs:
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
           gradle-command: :runners:spark:${{ matrix.spark }}:examplesIntegrationTest
-          gradle-switches:  --max-workers=8 --continue
+          gradle-switches:  --max-workers=8
 
