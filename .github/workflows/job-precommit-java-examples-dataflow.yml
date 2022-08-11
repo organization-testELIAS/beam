@@ -61,4 +61,4 @@ jobs:
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
           gradle-command: :sdks:java:io:debezium:integrationTest
-          gradle-switches: "-PskipCheckerFramework -PdisableSpotlessCheck=true -PdisableCheckStyle=true --info --continue -Pdocker-pull-licenses --max-workers=8"
+          gradle-switches: "-PskipCheckerFramework -PdisableSpotlessCheck=true -PdisableCheckStyle=true --info --max-workers=8"
