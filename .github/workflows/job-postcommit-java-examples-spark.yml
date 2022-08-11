@@ -33,6 +33,9 @@ jobs:
       matrix:
         java: [ '8', '11' ]
         spark: ['2', '3' ]
+        exclude:
+          - java: 11
+            spark: 2
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
