@@ -31,7 +31,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        java: [ '8', '11', '17' ]
+        java: [ '8' ] #versions 11 and 17 error because of the java.nio.ByteBuffer change in java 11 and onwards.
     steps:
       - name: Get number of available processors
         id: get_available_processors
