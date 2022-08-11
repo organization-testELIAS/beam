@@ -17,35 +17,22 @@
 
 # To learn more about GitHub Actions in Apache Beam check the CI.md
 
-name: Java_PVR_Flink_Docker
+name: PostCommit Java Examples Flink
 
 on:
   workflow_dispatch:
   schedule:
     - cron: '0 */6 * * *'
-  push:
-    branches: ['main', 'release-*']
-    tags: 'v*'
-  pull_request:
-    branches: ['main', 'release-*']
-    tags: 'v*'
-    paths: ['sdks/java/core/src/test/java/org/apache/beam/sdk/**',
-      'sdks/java/container/**',
-      'sdks/java/harness/**',
-      'runners/flink/**',
-      'runners/java-fn-execution/**']
-
 
 jobs:
-  java-pvr-flink-docker:
-    name: Run Java PVR Flink Docker
+  postcommit-java-examples-flink:
+    name: Run PostCommit Java Examples Flink
     runs-on: self-hosted
     strategy:
       fail-fast: true
       matrix:
-        java: ['8', '11'] #Skipping Java 17 due to new access options added in JDK 16 and onwards.
+        java: [ '8', '11' ]
         flink: ['1.13', '1.14', '1.15']
-    timeout-minutes: 480
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -57,7 +44,9 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
-      - name: Run :runners:flink:${{ matrix.flink }}:job-server:validatesPortableRunnerDocker
+      - name: Run :runners:flink:${{ matrix.flink }}:examplesIntegrationTest
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
-          gradle-command: :runners:flink:${{ matrix.flink }}:job-server:validatesPortableRunnerDocker
+          gradle-command: :runners:flink:${{ matrix.flink }}:examplesIntegrationTest
+          gradle-switches:  --max-workers=8 --continue
+
