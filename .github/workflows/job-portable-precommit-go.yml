@@ -41,8 +41,10 @@ jobs:
         with:
           persist-credentials: false
           submodules: recursive
+      - name: Setup environment
+        uses: ./.github/actions/setup-self-hosted-action
       - name: Run :goPortablePreCommit
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
-            gradle-command: goPortablePreCommit
+            gradle-command: :goPortablePreCommit
 

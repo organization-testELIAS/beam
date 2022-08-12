@@ -42,6 +42,8 @@ jobs:
         with:
           persist-credentials: false
           submodules: recursive
+      - name: Setup environment
+        uses: ./.github/actions/setup-self-hosted-action
       - name: Run spotlessCheck checkStyleMain checkStyleTest
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:

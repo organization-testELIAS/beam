@@ -47,6 +47,8 @@ jobs:
         with:
           persist-credentials: false
           submodules: recursive
+      - name: Setup environment
+        uses: ./.github/actions/setup-self-hosted-action
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
@@ -56,4 +58,4 @@ jobs:
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
           gradle-command: sqlPreCommit
-          gradle-switches: "-PskipCheckerFramework -PdisableSpotlessCheck=true -PdisableCheckStyle=true --info"
+          gradle-switches: -PskipCheckerFramework -PdisableSpotlessCheck=true -PdisableCheckStyle=true --info

@@ -24,14 +24,11 @@ on:
   schedule:
     - cron: '0 */6 * * *'
 
+# Java versions 11 and 17 error because of the java.nio.ByteBuffer change in java 11 and onwards.
 jobs:
   postcommit-java-examples-dataflow-v2:
     name: Run PostCommit Java Examples Dataflow v2
     runs-on: self-hosted
-    strategy:
-      fail-fast: true
-      matrix:
-        java: [ '8' ] #versions 11 and 17 error because of the java.nio.ByteBuffer change in java 11 and onwards.
     steps:
       - name: Get number of available processors
         id: get_available_processors
@@ -45,14 +42,10 @@ jobs:
         with:
           persist-credentials: false
           submodules: recursive
-      - name: Setup Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: ${{ matrix.java }}
+      - name: Setup environment
+        uses: ./.github/actions/setup-self-hosted-action
       - name: Run :runners:google-cloud-dataflow-java:examplesJavaRunnerV2IntegrationTest
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
           gradle-command: :runners:google-cloud-dataflow-java:examplesJavaRunnerV2IntegrationTest
-          gradle-switches:  --max-workers=${{ steps.get_available_processors.outputs.BALANCE_CORES }} -PdisableSpotlessCheck=true -PdisableCheckStyle=true -PskipCheckerFramework
-
+          gradle-switches:  --max-workers=${{ steps.get_available_processors.outputs.BALANCE_CORES }}
