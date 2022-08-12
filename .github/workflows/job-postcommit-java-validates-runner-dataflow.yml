@@ -17,7 +17,7 @@
 
 # To learn more about GitHub Actions in Apache Beam check the CI.md
 
-name: PostCommit Java Validates Runner Dataflow Java 11
+name: PostCommit Java Validates Runner Dataflow Java
 
 on:
   workflow_dispatch:
@@ -25,8 +25,8 @@ on:
     - cron: '0 */6 * * *'
 
 jobs:
-  postcommit-java-validates-runner-dataflow-java11:
-    name: Run PostCommit Validates Runner Dataflow Java 11
+  postcommit-java-validates-runner-dataflow-java:
+    name: Run PostCommit Validates Runner Dataflow Java
     runs-on: self-hosted
     strategy:
       fail-fast: true
