@@ -28,24 +28,17 @@ jobs:
   postcommit-java-hadoop-versions:
     name: Run PostCommit Java Hadoop Versions
     runs-on: self-hosted
-    strategy:
-      fail-fast: true
-      matrix:
-        java: [ '8' ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
           persist-credentials: false
           submodules: recursive
-      - name: Setup Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: ${{ matrix.java }}
+      - name: Setup environment
+        uses: ./.github/actions/setup-self-hosted-action
       - name: Run :javaHadoopVersionsTest
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
           gradle-command: :javaHadoopVersionsTest
-          gradle-switches:  --max-workers=8 -Pmaven_home=/home/jenkins/tools/maven/apache-maven-3.5.4
+          gradle-switches: -Pmaven_home=/home/jenkins/tools/maven/apache-maven-3.5.4
 

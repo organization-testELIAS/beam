@@ -38,6 +38,8 @@ jobs:
         with:
           persist-credentials: false
           submodules: recursive
+      - name: Setup environment
+        uses: ./.github/actions/setup-self-hosted-action
       - name: Run Whitespace
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
