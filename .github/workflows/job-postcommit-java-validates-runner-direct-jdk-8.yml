@@ -17,7 +17,7 @@
 
 # To learn more about GitHub Actions in Apache Beam check the CI.md
 
-name: PostCommit Java Validates Runner Dataflow Java
+name: PostCommit Java Validates Runner Direct JDK8
 
 on:
   workflow_dispatch:
@@ -25,13 +25,9 @@ on:
     - cron: '0 */6 * * *'
 
 jobs:
-  postcommit-java-validates-runner-dataflow-java:
-    name: Run PostCommit Validates Runner Dataflow Java
+  postcommit-java-validates-runner-direct-jdk-8:
+    name: Run PostCommit Validates Runner Direct JDK8
     runs-on: self-hosted
-    strategy:
-      fail-fast: true
-      matrix:
-        java: [ '8', '11', '17' ]
     steps:
       - name: Get number of available processors
         id: get_available_processors
@@ -47,23 +43,8 @@ jobs:
           submodules: recursive
       - name: Setup environment
         uses: ./.github/actions/setup-self-hosted-action
-      - name: Run :runners:google-cloud-dataflow-java:testJar
+      - name: Run :runners:direct-java:validatesRunner
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
-          gradle-command: :runners:google-cloud-dataflow-java:testJar
+          gradle-command: :runners:direct-java:validatesRunner
           gradle-switches: --max-workers=${{ steps.get_available_processors.outputs.BALANCE_CORES }}
-      - name: Run :runners:google-cloud-dataflow-java:worker:legacy-worker:shadowJar
-        uses: ./.github/actions/gradle-command-self-hosted-action
-        with:
-          gradle-command: :runners:google-cloud-dataflow-java:worker:legacy-worker:shadowJar
-          gradle-switches: --max-workers=${{ steps.get_available_processors.outputs.BALANCE_CORES }}
-      - name: Setup Java ${{ matrix.java }} #Setting up Java 8, 11 or 17 to execute tests.
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: ${{ matrix.java }}
-      - name: Run :runners:google-cloud-dataflow-java:validatesRunner
-        uses: ./.github/actions/gradle-command-self-hosted-action
-        with:
-          gradle-command: :runners:google-cloud-dataflow-java:validatesRunner
-          gradle-switches: --max-workers=${{ steps.get_available_processors.outputs.BALANCE_CORES }} -x shadowJar -x shadowTestJar -x compileJava -x compileTestJava -x jar -x testJar -x classes -x testClasses
