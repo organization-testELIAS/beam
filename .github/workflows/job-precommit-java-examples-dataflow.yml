@@ -59,8 +59,8 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
-      - name: Run javaExamplesDataflowPreCommit in Java-${{ matrix.java }}
+      - name: Run :javaExamplesDataflowPreCommit in Java-${{ matrix.java }}
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
-          gradle-command: :sdks:java:io:debezium:integrationTest
+          gradle-command: :javaExamplesDataflowPreCommit
           gradle-switches: -PskipCheckerFramework -PdisableSpotlessCheck=true -PdisableCheckStyle=true --info
