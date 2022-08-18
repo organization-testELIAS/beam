@@ -48,4 +48,4 @@ jobs:
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
           gradle-command: :runners:google-cloud-dataflow-java:examplesJavaRunnerV2IntegrationTest
-          gradle-switches:  --max-workers=${{ steps.get_available_processors.outputs.BALANCE_CORES }}
+          arguments:  --max-workers=${{ steps.get_available_processors.outputs.BALANCE_CORES }}

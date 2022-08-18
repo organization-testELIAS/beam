@@ -65,4 +65,4 @@ jobs:
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
           gradle-command: :javaExamplesDataflowPreCommit
-          gradle-switches: -Pjava${{ matrix.java }}Home=${{ env.JAVA_HOME }} -PcompileAndRunTestsWithJava${{ matrix.java }} -PskipCheckerFramework -PdisableSpotlessCheck=true -PdisableCheckStyle=true --info
+          arguments: -Pjava${{ matrix.java }}Home=${{ env.JAVA_HOME }} -PcompileAndRunTestsWithJava${{ matrix.java }} -PskipCheckerFramework -PdisableSpotlessCheck=true -PdisableCheckStyle=true --info

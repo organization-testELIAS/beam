@@ -51,12 +51,12 @@ jobs:
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
           gradle-command: :runners:direct-java:shadowJar
-          gradle-switches: --max-workers=${{ steps.get_available_processors.outputs.BALANCE_CORES }}
+          arguments: --max-workers=${{ steps.get_available_processors.outputs.BALANCE_CORES }}
       - name: Run :runners:direct-java:shadowTestJar
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
           gradle-command: :runners:direct-java:shadowTestJar
-          gradle-switches: --max-workers=${{ steps.get_available_processors.outputs.BALANCE_CORES }}
+          arguments: --max-workers=${{ steps.get_available_processors.outputs.BALANCE_CORES }}
       - name: Setup Java ${{ matrix.java }} #Setting up Java 8, 11 or 17 to execute tests.
         uses: actions/setup-java@v3
         with:
@@ -66,4 +66,4 @@ jobs:
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
           gradle-command: :runners:direct-java:validatesRunner
-          gradle-switches: --max-workers=${{ steps.get_available_processors.outputs.BALANCE_CORES }} -x shadowJar -x shadowTestJar -x compileJava -x compileTestJava
+          arguments: --max-workers=${{ steps.get_available_processors.outputs.BALANCE_CORES }} -x shadowJar -x shadowTestJar -x compileJava -x compileTestJava
