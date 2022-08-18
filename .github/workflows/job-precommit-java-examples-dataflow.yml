@@ -44,7 +44,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        java: [ '8', '11', '17'] #Skipping Java 17 due to new access options added in JDK 16 and onwards.
+        java: [ '17'] #Skipping Java 17 due to new access options added in JDK 16 and onwards.
     timeout-minutes: 60
     steps:
       - name: Checkout code
@@ -60,7 +60,7 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
       - name: Get JAVA_HOME variable
-        run: echo "JAVA_HOME=echo $JAVA_HOME" >> $GITHUB_ENV
+        run: echo "JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV
       - name: Run :javaExamplesDataflowPreCommit in Java-${{ matrix.java }}
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
