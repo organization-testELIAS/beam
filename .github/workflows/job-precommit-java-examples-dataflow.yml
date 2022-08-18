@@ -60,7 +60,7 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
       - name: Get JAVA_HOME variable
-        run: echo "JAVA_HOME=echo $JAVA_HOME" >> $GITHUB_ENV
+        run: echo "JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV
       - name: Run :javaExamplesDataflowPreCommit in Java-${{ matrix.java }}
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
