@@ -49,7 +49,7 @@ if (project.hasProperty("compileAndRunTestsWithJava17")) {
         // https://github.com/tbroyer/gradle-errorprone-plugin#jdk-16-support
         options.errorprone.errorproneArgs.add("-XepDisableAllChecks")
         options.forkOptions.jvmArgs += [
-                "--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+                "--add-opens=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
                 "--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
                 "--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED",
                 "--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED",
