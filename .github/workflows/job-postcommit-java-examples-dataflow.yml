@@ -56,5 +56,5 @@ jobs:
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
           gradle-command: :runners:google-cloud-dataflow-java:examples:java${{ matrix.java }}PostCommit
-          arguments: --max-workers=${{ steps.get_available_processors.outputs.BALANCE_CORES }}
+
 
