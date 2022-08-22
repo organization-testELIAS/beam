@@ -17,7 +17,7 @@
 
 # To learn more about GitHub Actions in Apache Beam check the CI.md
 
-name: PostCommit Java Validates Runner Dataflow JDK 11/17
+name: PostCommit Java Validates Runner Dataflow JDK 11
 
 on:
   workflow_dispatch:
@@ -25,13 +25,13 @@ on:
     - cron: '0 */6 * * *'
 
 jobs:
-  postcommit-java-validates-runner-dataflow-jdk-11-17:
-    name: Run PostCommit Validates Runner Dataflow JDK 11/17
+  postcommit-java-validates-runner-dataflow-jdk-11:
+    name: Run PostCommit Validates Runner Dataflow JDK 11
     runs-on: self-hosted
     strategy:
       fail-fast: true
       matrix:
-        java: [ '11', '17' ]
+        java: [ '11' ]
     steps:
       - name: Get number of available processors
         id: get_available_processors
@@ -57,7 +57,7 @@ jobs:
         with:
           gradle-command: :runners:google-cloud-dataflow-java:worker:legacy-worker:shadowJar
           arguments: --max-workers=${{ steps.get_available_processors.outputs.BALANCE_CORES }}
-      - name: Setup Java ${{ matrix.java }} #Setting up Java 11, 17 to execute tests.
+      - name: Setup Java ${{ matrix.java }} #Setting up Java 11  to execute tests.
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
