@@ -31,7 +31,9 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        java: [ '11', '17' ]
+        java: [ '8', '11', '17' ]
+        exclude:
+          - java: '17' #Skipping Java 17 due to new access options added in JDK 16 and onwards.
     steps:
       - name: Get number of available processors
         id: get_available_processors

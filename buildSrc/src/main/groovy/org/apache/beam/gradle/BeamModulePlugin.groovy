@@ -1244,7 +1244,7 @@ class BeamModulePlugin implements Plugin<Project> {
           // https://github.com/tbroyer/gradle-errorprone-plugin#jdk-16-support
           options.errorprone.errorproneArgs.add("-XepDisableAllChecks")
           options.forkOptions.jvmArgs += [
-            "-J--add-opens=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+            "-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
             "-J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
             "-J--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED",
             "-J--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED",
