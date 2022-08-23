@@ -35,13 +35,6 @@ jobs:
         exclude:
           - java: '17' #Skipping Java 17 due to new access options added in JDK 16 and onwards.
     steps:
-      - name: Get number of available processors
-        id: get_available_processors
-        run: |
-            CORES=$(grep -c ^processor /proc/cpuinfo)
-            BALANCE_CORES=$((3*CORES))
-            echo $BALANCE_CORES
-            echo "::set-output name=BALANCE_CORES::$BALANCE_CORES"
       - name: Checkout code
         uses: actions/checkout@v2
         with:
@@ -58,5 +51,5 @@ jobs:
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
           gradle-command: :runners:google-cloud-dataflow-java:examples:java${{ matrix.java }}PostCommit
-          arguments: --max-workers=${{ steps.get_available_processors.outputs.BALANCE_CORES }}
+
 

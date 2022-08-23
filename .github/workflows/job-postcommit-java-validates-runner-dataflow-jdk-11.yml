@@ -33,13 +33,6 @@ jobs:
       matrix:
         java: [ '11' ]
     steps:
-      - name: Get number of available processors
-        id: get_available_processors
-        run: |
-          CORES=$(grep -c ^processor /proc/cpuinfo)
-          BALANCE_CORES=$((3*CORES))
-          echo $BALANCE_CORES
-          echo "::set-output name=BALANCE_CORES::$BALANCE_CORES"
       - name: Checkout code
         uses: actions/checkout@v2
         with:
@@ -51,12 +44,10 @@ jobs:
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
           gradle-command: :runners:google-cloud-dataflow-java:testJar
-          arguments: --max-workers=${{ steps.get_available_processors.outputs.BALANCE_CORES }}
       - name: Run :runners:google-cloud-dataflow-java:worker:legacy-worker:shadowJar
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
           gradle-command: :runners:google-cloud-dataflow-java:worker:legacy-worker:shadowJar
-          arguments: --max-workers=${{ steps.get_available_processors.outputs.BALANCE_CORES }}
       - name: Setup Java ${{ matrix.java }} #Setting up Java 11  to execute tests.
         uses: actions/setup-java@v3
         with:
@@ -66,4 +57,4 @@ jobs:
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
           gradle-command: :runners:google-cloud-dataflow-java:validatesRunner
-          arguments: --max-workers=${{ steps.get_available_processors.outputs.BALANCE_CORES }} -x shadowJar -x shadowTestJar -x compileJava -x compileTestJava -x jar -x testJar -x classes -x testClasses
+          arguments: -x shadowJar -x shadowTestJar -x compileJava -x compileTestJava -x jar -x testJar -x classes -x testClasses
