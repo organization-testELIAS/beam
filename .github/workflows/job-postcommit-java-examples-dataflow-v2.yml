@@ -30,13 +30,6 @@ jobs:
     name: Run PostCommit Java Examples Dataflow v2
     runs-on: self-hosted
     steps:
-      - name: Get number of available processors
-        id: get_available_processors
-        run: |
-            CORES=$(grep -c ^processor /proc/cpuinfo)
-            BALANCE_CORES=$((3*CORES))
-            echo $BALANCE_CORES
-            echo "::set-output name=BALANCE_CORES::$BALANCE_CORES"
       - name: Checkout code
         uses: actions/checkout@v2
         with:
@@ -48,4 +41,4 @@ jobs:
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
           gradle-command: :runners:google-cloud-dataflow-java:examplesJavaRunnerV2IntegrationTest
-          arguments:  --max-workers=${{ steps.get_available_processors.outputs.BALANCE_CORES }}
+

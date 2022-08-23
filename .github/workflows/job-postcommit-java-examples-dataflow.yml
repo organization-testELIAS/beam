@@ -33,13 +33,6 @@ jobs:
       matrix:
         java: [ '11' ]
     steps:
-      - name: Get number of available processors
-        id: get_available_processors
-        run: |
-            CORES=$(grep -c ^processor /proc/cpuinfo)
-            BALANCE_CORES=$((3*CORES))
-            echo $BALANCE_CORES
-            echo "::set-output name=BALANCE_CORES::$BALANCE_CORES"
       - name: Checkout code
         uses: actions/checkout@v2
         with:
