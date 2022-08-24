@@ -17,7 +17,7 @@
 
 # To learn more about GitHub Actions in Apache Beam check the CI.md
 
-name: PreCommit Runners DataFlow
+name: PreCommit Runners Direct
 
 on:
   workflow_dispatch:
@@ -29,12 +29,12 @@ on:
   pull_request:
     branches: ['main', 'release-*']
     tags: 'v*'
-    paths: ['runners/google-cloud-dataflow-java/**']
+    paths: ['runners/direct-java/**']
 
 
 jobs:
-  precommit-runners-dataflow:
-    name: Run PreCommit Runners DataFlow
+  precommit-runners-direct:
+    name: Run PreCommit Runners Direct
     runs-on: self-hosted
     strategy:
       fail-fast: true
@@ -54,18 +54,8 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
-      - name: Run :runners:google-cloud-dataflow-java:test in Java-${{ matrix.java }}
+      - name: Run :runners:direct-java:test in Java-${{ matrix.java }}
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
-          gradle-command: :runners:google-cloud-dataflow-java:test
-          arguments: -PdisableSpotlessCheck=true -PdisableCheckStyle=true --info
-      - name: Run :runners:google-cloud-dataflow-java:worker:test in Java-${{ matrix.java }}
-        uses: ./.github/actions/gradle-command-self-hosted-action
-        with:
-          gradle-command: :runners:google-cloud-dataflow-java:worker:test
-          arguments: -PdisableSpotlessCheck=true -PdisableCheckStyle=true --info
-      - name: Run :runners:google-cloud-dataflow-java:worker:legacy-worker:test in Java-${{ matrix.java }}
-        uses: ./.github/actions/gradle-command-self-hosted-action
-        with:
-          gradle-command: :runners:google-cloud-dataflow-java:worker:legacy-worker:test
+          gradle-command: :runners:direct-java:test
           arguments: -PdisableSpotlessCheck=true -PdisableCheckStyle=true --info
