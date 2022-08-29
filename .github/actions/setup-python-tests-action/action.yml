@@ -15,17 +15,31 @@
 # specific language governing permissions and limitations
 # under the License.
 
-name: 'Setup TestProperties'
-description: 'Setup default test properties from a Json config file'
-outputs:
-  properties:
-    description: "Test properties"
-    value: ${{ steps.test-properties-json.outputs.test-properties }}
+name: 'Setup environment for python tests'
+description: 'Setup action to run python tests'
+inputs:
+  test-directory:
+    required: true
+    description: 'Python tests directory'
+    default: ''
+  python-version:
+    required: false
+    description: 'Default Python version'
+    default: py38
 runs:
   using: "composite"
   steps:
-    - id: test-properties-json
+    - name: Setup environment
+      uses: ./.github/actions/setup-self-hosted-action
+    - name: Setup python env for testing
       shell: bash
       run: |
-        JSON=$(cat ./.github/actions/setup-default-test-properties/test-properties.json)
-        echo "::set-output name=test-properties::$(echo $JSON)"
+        cd sdks/python
+        pip install --upgrade pip
+        pip install --upgrade setuptools
+        pip install -r build-requirements.txt
+        pip install -e ".[gcp,test]"
+        pip3 install tox
+    - name: Run python tests
+      shell: bash
+      run: cd sdks/python && tox -e ${{ inputs.python-version }} -- ${{ inputs.test-directory }}
