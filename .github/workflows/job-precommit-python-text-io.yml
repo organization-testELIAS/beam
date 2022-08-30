@@ -17,7 +17,7 @@
 
 # This workflow will run the test of python Azure IO class.
 
-name: PreCommit Python Filesystem IO
+name: PreCommit Python Text IO
 
 on:
   workflow_dispatch:
@@ -44,9 +44,9 @@ jobs:
       - id: test-properties
         uses: ./.github/actions/setup-default-test-properties
 
-  precommit_python_filesystem-io:
+  precommit_python_text-io:
     needs: set-properties
-    name: PreCommit Python Filesystem IO
+    name: PreCommit Python Text IO
     runs-on: self-hosted
     strategy:
       fail-fast: false
@@ -61,8 +61,8 @@ jobs:
           submodules: recursive
       - name: Set python version
         run: echo "PYTHON_VERSION=$(echo py${{ matrix.version }} | sed -e 's/\.//g')" >> $GITHUB_ENV
-      - name: Run PreCommit Python Filesystem tests with ${{ matrix.tox-env }} env
+      - name: Run PreCommit Python Text tests with ${{ matrix.tox-env }} env
         uses: ./.github/actions/setup-python-tests-action
         with:
-          test-directory: apache_beam/io/file*_test.py
+          test-directory: apache_beam/io/textio_test.py
           python-version: ${{ env.PYTHON_VERSION }}-${{ matrix.tox-env }}
