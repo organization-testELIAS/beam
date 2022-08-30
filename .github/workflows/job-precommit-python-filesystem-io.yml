@@ -64,5 +64,5 @@ jobs:
       - name: Run PreCommit Python Filesystem tests with ${{ matrix.tox-env }} env
         uses: ./.github/actions/setup-python-tests-action
         with:
-          test-directory: apache_beam/io/file*_test
+          test-directory: apache_beam/io/file*_test.py
           python-version: ${{ env.PYTHON_VERSION }}-${{ matrix.tox-env }}
