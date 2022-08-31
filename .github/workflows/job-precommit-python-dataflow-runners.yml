@@ -17,7 +17,7 @@
 
 # To learn more about GitHub Actions in Apache Beam check the CI.md
 
-name: PreCommit Python Parquet IO
+name: PreCommit Python Runners DataFlow
 
 on:
   workflow_dispatch:
@@ -44,9 +44,9 @@ jobs:
       - id: test-properties
         uses: ./.github/actions/setup-default-test-properties
 
-  precommit_python_mongodb-io:
+  precommit_python_runners-dataflow:
     needs: set-properties
-    name: PreCommit Python Parquet IO
+    name: PreCommit Python Runners DataFlow
     runs-on: self-hosted
     strategy:
       fail-fast: false
@@ -61,8 +61,8 @@ jobs:
           submodules: recursive
       - name: Set python version
         run: echo "PYTHON_VERSION=$(echo py${{ matrix.version }} | sed -e 's/\.//g')" >> $GITHUB_ENV
-      - name: Run PreCommit Python Parquet tests with ${{ matrix.tox-env }} env
+      - name: Run PreCommit Python Runners DataFlow tests with ${{ matrix.tox-env }} env
         uses: ./.github/actions/setup-python-tests-action
         with:
-          test-directory: apache_beam/io/parquetio*_test.py
+          test-directory: apache_beam/runners/dataflow/
           python-version: ${{ env.PYTHON_VERSION }}-${{ matrix.tox-env }}

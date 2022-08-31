@@ -15,7 +15,7 @@
 # specific language governing permissions and limitations
 # under the License.
 
-# This workflow will run the test of python Azure IO class.
+# To learn more about GitHub Actions in Apache Beam check the CI.md
 
 name: PreCommit Python MongoDB IO
 
