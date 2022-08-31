@@ -1,6 +1,6 @@
 {
   "PythonTestProperties": {
-    "ALL_SUPPORTED_VERSIONS": ["3.7", "3.8", "3.9"],
+    "ALL_SUPPORTED_VERSIONS": ["3.8"],
     "LOWEST_SUPPORTED": ["3.7"],
     "HIGHEST_SUPPORTED": ["3.9"],
     "ESSENTIAL_VERSIONS": ["3.7", "3.9"],
