@@ -21,8 +21,6 @@ name: PostCommit Java Validates Runner Dataflow Streaming
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 */6 * * *'
 
 jobs:
   postcommit-java-validates-runner-dataflow-streaming:
