@@ -31,9 +31,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        java: [ '8', '11', '17' ]
-        exclude:
-          - java: '17' #Skipping Java 17 due to new access options added in JDK 16 and onwards.
+        java: [ '11' ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
