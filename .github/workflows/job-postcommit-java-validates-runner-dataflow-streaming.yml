@@ -26,6 +26,7 @@ jobs:
   postcommit-java-validates-runner-dataflow-streaming:
     name: Run PostCommit Validates Runner Dataflow Streaming
     runs-on: self-hosted
+    timeout-minutes: 2160
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
