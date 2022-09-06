@@ -33,19 +33,6 @@ on:
 
 
 jobs:
-  set-properties:
-    runs-on: self-hosted
-    outputs:
-      properties: ${{ steps.test-properties.outputs.properties }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          persist-credentials: false
-          submodules: recursive
-      - id: test-properties
-        uses: ./.github/actions/setup-default-test-properties
-
   sql-precommit:
     name: Run SQL Precommit
     runs-on: self-hosted
