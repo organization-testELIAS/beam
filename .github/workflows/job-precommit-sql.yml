@@ -47,13 +47,12 @@ jobs:
         uses: ./.github/actions/setup-default-test-properties
 
   sql-precommit:
-    needs: set-properties
     name: Run SQL Precommit
     runs-on: self-hosted
     strategy:
       fail-fast: true
       matrix:
-        java: ${{fromJson(needs.set-properties.outputs.properties).JavaTestProperties.SUPPORTED_VERSIONS}}
+        java: ["8", "11", "17"]
         exclude: #Skipping Java 11 and 17 due to issues caused by new access options added in JDK 9 and onwards.
           - java: ["11", "17"]
     timeout-minutes: 180
