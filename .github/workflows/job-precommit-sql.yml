@@ -47,6 +47,7 @@ jobs:
         uses: ./.github/actions/setup-default-test-properties
 
   sql-precommit:
+    needs: set-properties
     name: Run SQL Precommit
     runs-on: self-hosted
     strategy:
