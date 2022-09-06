@@ -47,8 +47,6 @@ jobs:
         with:
           persist-credentials: false
           submodules: recursive
-      - name: Setup environment
-        uses: ./.github/actions/setup-self-hosted-action
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
