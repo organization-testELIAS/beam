@@ -14,7 +14,8 @@
   },
   "JavaTestProperties": {
     "SUPPORTED_VERSIONS": ["8", "11", "17"],
-    "ESSENTIAL_VERSIONS": ["8", "11"],
-    "EXCLUDED_VERSIONS": ["11", "17"]
+    "JDK_8": ["8"],
+    "JDK_11": ["11"],
+    "JDK_17": ["17"]
   }
 }
