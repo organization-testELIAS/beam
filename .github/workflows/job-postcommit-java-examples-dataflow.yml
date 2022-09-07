@@ -47,7 +47,7 @@ jobs:
       matrix:
         java: ${{fromJson(needs.set-properties.outputs.properties).JavaTestProperties.SUPPORTED_VERSIONS}}
         exclude: #Skipping Java 11 and 17 due to issues caused by new access options added in JDK 9 and onwards.
-          - java: ${{fromJson(needs.set-properties.outputs.properties).JavaTestProperties.EXCLUDED_VERSIONS}}
+          - java: "8"
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -65,3 +65,4 @@ jobs:
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
           gradle-command: :runners:google-cloud-dataflow-java:examples:java${{ matrix.java }}PostCommit
+          arguments: "-PskipCheckerFramework -PdisableSpotlessCheck=true -PdisableCheckStyle=true --info"
