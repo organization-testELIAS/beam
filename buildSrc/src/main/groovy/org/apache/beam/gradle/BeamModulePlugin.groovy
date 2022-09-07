@@ -2315,12 +2315,12 @@ class BeamModulePlugin implements Plugin<Project> {
         javaContainerSuffix = 'java8'
       } else if (JavaVersion.current() == JavaVersion.VERSION_11) {
         javaContainerSuffix = 'java11'
-        tasks.withType(JavaCompile) {
+        project.tasks.withType(JavaCompile) {
           options.compilerArgs += ["--release", "8"]
         }
       } else if (JavaVersion.current() == JavaVersion.VERSION_17) {
         javaContainerSuffix = 'java17'
-        tasks.withType(JavaCompile) {
+        project.tasks.withType(JavaCompile) {
           options.compilerArgs += ["--release", "8"]
         }
       } else {
