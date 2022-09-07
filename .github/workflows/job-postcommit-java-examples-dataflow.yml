@@ -49,6 +49,7 @@ jobs:
         java: ${{fromJson(needs.set-properties.outputs.properties).JavaTestProperties.SUPPORTED_VERSIONS}}
         exclude: #Skipping Java 8 since there is no task for that version.
           - java: "8"
+          - java: "17"
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
