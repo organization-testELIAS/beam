@@ -17,7 +17,7 @@
 
 # To learn more about GitHub Actions in Apache Beam check the CI.md
 
-name: Kotlin_Examples
+name: PreCommit Kotlin Examples
 
 on:
   workflow_dispatch:
@@ -39,8 +39,8 @@ on:
 
 
 jobs:
-  kotlin-examples:
-    name: Run Kotlin Examples
+  precommit-kotlin-examples:
+    name: Run PreCommit Kotlin Examples
     runs-on: self-hosted
     timeout-minutes: 120
     steps:
