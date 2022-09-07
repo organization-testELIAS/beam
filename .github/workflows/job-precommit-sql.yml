@@ -54,9 +54,9 @@ jobs:
       fail-fast: true
       matrix:
         java: ${{fromJson(needs.set-properties.outputs.properties).JavaTestProperties.SUPPORTED_VERSIONS}}
-        exclude: #Skipping Java 11 and 17 due to issues caused by new access options added in JDK 9 and onwards.
-          - java: "11"
-          - java: "17"
+        #exclude: #Skipping Java 11 and 17 due to issues caused by new access options added in JDK 9 and onwards.
+        #  - java: "11"
+        #  - java: "17"
     timeout-minutes: 180
     steps:
       - name: Checkout code
