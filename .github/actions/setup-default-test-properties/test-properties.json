@@ -13,9 +13,6 @@
     "TOX_ENV": ["cloud", "cython"]
   },
   "JavaTestProperties": {
-    "SUPPORTED_VERSIONS": ["8", "11", "17"],
-    "JDK_8": ["8"],
-    "JDK_11": ["11"],
-    "JDK_17": ["17"]
+    "SUPPORTED_VERSIONS": ["8", "11", "17"]
   }
 }
