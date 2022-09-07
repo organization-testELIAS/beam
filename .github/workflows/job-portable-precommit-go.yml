@@ -45,7 +45,7 @@ jobs:
       - id: test-properties
         uses: ./.github/actions/setup-default-test-properties
 
-  go-precommit:
+  precommit-go-portable:
     needs: set-properties
     name: Run PreCommit Go Portable
     runs-on: self-hosted
