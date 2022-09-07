@@ -17,7 +17,7 @@
 
 # To learn more about GitHub Actions in Apache Beam check the CI.md
 
-name: Go PostCommit Validates Runner Samza
+name: PostCommit Go Validates Runner Samza
 
 on:
   workflow_dispatch:
@@ -40,7 +40,7 @@ jobs:
 
   postcommit-go-vr-samza:
     needs: set-properties
-    name: Run Go PostCommit Validates Runner Samza
+    name: Run PostCommit Go Validates Runner Samza
     runs-on: self-hosted
     strategy:
       fail-fast: true

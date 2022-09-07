@@ -17,7 +17,7 @@
 
 # To learn more about GitHub Actions in Apache Beam check the CI.md
 
-name: Go PostCommit Validates Runner Spark
+name: PostCommit Go Validates Runner Spark
 
 on:
   workflow_dispatch:
@@ -40,7 +40,7 @@ jobs:
 
   postcommit-go-vr-spark:
     needs: set-properties
-    name: Run Go PostCommit Validates Runner Spark
+    name: Run PostCommit Go Validates Runner Spark
     runs-on: self-hosted
     strategy:
       fail-fast: true

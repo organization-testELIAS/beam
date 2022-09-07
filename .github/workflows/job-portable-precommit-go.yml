@@ -17,7 +17,7 @@
 
 # To learn more about GitHub Actions in Apache Beam check the CI.md
 
-name: Go Portable PreCommit
+name: PreCommit Go Portable
 
 on:
   workflow_dispatch:
@@ -47,7 +47,7 @@ jobs:
 
   go-precommit:
     needs: set-properties
-    name: Run Go Portable PreCommit
+    name: Run PreCommit Go Portable
     runs-on: self-hosted
     strategy:
       fail-fast: true
