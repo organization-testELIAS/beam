@@ -20,6 +20,7 @@
 name: Spotless
 
 on:
+  workflow_dispatch:
   push:
     branches: ['main', 'release-*']
     tags: 'v*'
