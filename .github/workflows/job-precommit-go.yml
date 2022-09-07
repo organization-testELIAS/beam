@@ -46,6 +46,7 @@ jobs:
         uses: ./.github/actions/setup-default-test-properties
 
   precommit-go:
+    needs: set-properties
     name: Run PreCommit Go
     runs-on: self-hosted
     strategy:
