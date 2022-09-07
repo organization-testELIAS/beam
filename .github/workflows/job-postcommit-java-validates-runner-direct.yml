@@ -17,7 +17,7 @@
 
 # To learn more about GitHub Actions in Apache Beam check the CI.md
 
-name: PostCommit Java Validates Runner Direct JDK 11
+name: PostCommit Java Validates Runner Direct JDK 11/17
 
 on:
   workflow_dispatch:
@@ -25,13 +25,29 @@ on:
     - cron: '0 */6 * * *'
 
 jobs:
-  postcommit-java-validates-runner-direct-jdk-11:
-    name: Run PostCommit Validates Runner Direct JDK 11
+  set-properties:
+    runs-on: self-hosted
+    outputs:
+      properties: ${{ steps.test-properties.outputs.properties }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          submodules: recursive
+      - id: test-properties
+        uses: ./.github/actions/setup-default-test-properties
+
+  postcommit-java-validates-runner-direct:
+    needs: set-properties
+    name: Run PostCommit Validates Runner Direct
     runs-on: self-hosted
     strategy:
       fail-fast: true
       matrix:
-        java: [ '11' ]
+        java: ${{fromJson(needs.set-properties.outputs.properties).JavaTestProperties.SUPPORTED_VERSIONS}}
+        exclude:
+          - java: "8" #Execution with JDK8 is performed in another workflow.
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -48,12 +64,12 @@ jobs:
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
           gradle-command: :runners:direct-java:shadowTestJar
-      - name: Setup Java ${{ matrix.java }} #Setting up Java 11 to execute tests.
+      - name: Setup Java ${{ matrix.java }} #Setting up Java 11/17 to execute tests.
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
-      - name: Run :runners:direct-java:validatesRunner
+      - name: Run :runners:direct-java:validatesRunner in Java-${{ matrix.java }}
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
           gradle-command: :runners:direct-java:validatesRunner

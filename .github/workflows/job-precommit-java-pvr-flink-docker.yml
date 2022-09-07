@@ -17,7 +17,7 @@
 
 # To learn more about GitHub Actions in Apache Beam check the CI.md
 
-name: Java_PVR_Flink_Docker
+name: PreCommit Java PVR Flink Docker
 
 on:
   workflow_dispatch:
@@ -37,14 +37,29 @@ on:
 
 
 jobs:
-  java-pvr-flink-docker:
-    name: Run Java PVR Flink Docker
+  set-properties:
+    runs-on: self-hosted
+    outputs:
+      properties: ${{ steps.test-properties.outputs.properties }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          submodules: recursive
+      - id: test-properties
+        uses: ./.github/actions/setup-default-test-properties
+
+  precommit-java-pvr-flink-docker:
+    name: Run PreCommit Java PVR Flink Docker
     runs-on: self-hosted
     strategy:
       fail-fast: true
-      matrix:
-        java: ['8', '11'] #Skipping Java 17 due to new access options added in JDK 16 and onwards.
-        flink: ['1.13', '1.14', '1.15']
+      matrix: #JDK17 execution will fail due to new access policies applied to the core JDK libraries starting at JDK 16.
+        java: ${{fromJson(needs.set-properties.outputs.properties).JavaTestProperties.SUPPORTED_VERSIONS}}
+        flink: ${{fromJson(needs.set-properties.outputs.properties).JavaTestProperties.FLINK_VERSIONS}}
+        exclude: #TODO: Remove exclude and retest once issue https://github.com/apache/beam/issues/23066 gets resolved.
+          - java: "17"
     timeout-minutes: 480
     steps:
       - name: Checkout code

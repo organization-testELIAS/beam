@@ -17,7 +17,7 @@
 
 # To learn more about GitHub Actions in Apache Beam check the CI.md
 
-name: Java_GCP_IO_Direct
+name: PreCommit Java GCP IO Direct
 
 on:
   workflow_dispatch:
@@ -33,14 +33,32 @@ on:
 
 
 jobs:
-  java-gcp-io-direct:
-    name: Run Java GCP IO Direct
+  set-properties:
+    runs-on: self-hosted
+    outputs:
+      properties: ${{ steps.test-properties.outputs.properties }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          submodules: recursive
+      - id: test-properties
+        uses: ./.github/actions/setup-default-test-properties
+
+  precommit-java-gcp-io-direct:
+    needs: set-properties
+    name: Run PreCommit Java GCP IO Direct
     runs-on: self-hosted
     strategy:
       fail-fast: true
-      matrix:
-        java: [ '8', '11'] #Skipping Java 17 due to new access options added in JDK 16 and onwards.
-    timeout-minutes: 120
+      matrix: #JDK11 and 17 compilation will fail due to changes in ByteBuffer class since JDK9
+        #TODO: Retest once issue https://github.com/apache/beam/issues/23068 gets resolved.
+        java: ${{fromJson(needs.set-properties.outputs.properties).JavaTestProperties.SUPPORTED_VERSIONS}}
+        exclude:
+          - java: "11"
+          - java: "17"
+    timeout-minutes: 240
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -54,10 +72,10 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
-#      - name: Run :sdks:java:io:google-cloud-platform:test in Java-${{ matrix.java }}
-#        uses: ./.github/actions/gradle-command-self-hosted-action
-#        with:
-#          gradle-command: :sdks:java:io:google-cloud-platform:test
+      - name: Run :sdks:java:io:google-cloud-platform:test in Java-${{ matrix.java }}
+        uses: ./.github/actions/gradle-command-self-hosted-action
+        with:
+          gradle-command: :sdks:java:io:google-cloud-platform:test
       - name: Run :sdks:java:io:google-cloud-platform:postCommit in Java-${{ matrix.java }}
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
