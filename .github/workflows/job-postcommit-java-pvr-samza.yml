@@ -28,6 +28,7 @@ jobs:
   postcommit-java-pvr-samza:
     name: Run PostCommit Java PVR Samza
     runs-on: self-hosted
+    timeout-minutes: 2160
     strategy:
       fail-fast: true
       matrix:
