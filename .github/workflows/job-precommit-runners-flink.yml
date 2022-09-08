@@ -54,6 +54,7 @@ jobs:
       fail-fast: true
       matrix:
         java: ${{fromJson(needs.set-properties.outputs.properties).JavaTestProperties.SUPPORTED_VERSIONS}}
+        flink: ${{fromJson(needs.set-properties.outputs.properties).JavaTestProperties.FLINK_VERSIONS}}
         exclude: #Skipping Java 11 and 17 due to issues caused by new access options added in JDK 9 and onwards.
           - java: "11"
           - java: "17"
@@ -71,10 +72,10 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
-      - name: Run :runners:flink:test in Java-${{ matrix.java }}
+      - name: Run :runners:flink:${{ matrix.flink }}:test in Java-${{ matrix.java }}
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
-          gradle-command: :runners:flink:test
+          gradle-command: :runners:flink:${{ matrix.flink }}:test
           arguments: -PdisableSpotlessCheck=true -PdisableCheckStyle=true --info
       - name: Run :runners:flink:examplesIntegrationTest in Java-${{ matrix.java }}
         uses: ./.github/actions/gradle-command-self-hosted-action
