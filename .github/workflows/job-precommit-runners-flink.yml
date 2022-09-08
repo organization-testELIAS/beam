@@ -77,8 +77,8 @@ jobs:
         with:
           gradle-command: :runners:flink:${{ matrix.flink }}:test
           arguments: -PdisableSpotlessCheck=true -PdisableCheckStyle=true --info
-      - name: Run :runners:flink:examplesIntegrationTest in Java-${{ matrix.java }}
+      - name: Run :runners:flink:${{ matrix.flink }}:examplesIntegrationTest in Java-${{ matrix.java }}
         uses: ./.github/actions/gradle-command-self-hosted-action
         with:
-          gradle-command: :runners:flink:examplesIntegrationTest
+          gradle-command: :runners:flink:${{ matrix.flink }}:examplesIntegrationTest
           arguments: -PdisableSpotlessCheck=true -PdisableCheckStyle=true --info
