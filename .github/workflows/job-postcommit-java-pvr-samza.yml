@@ -26,7 +26,7 @@ on:
 
 jobs:
   set-properties:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     outputs:
       properties: ${{ steps.test-properties.outputs.properties }}
     steps:
@@ -41,7 +41,7 @@ jobs:
   postcommit-java-pvr-samza:
     needs: set-properties
     name: Run PostCommit Java PVR Samza
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     timeout-minutes: 2160
     strategy:
       fail-fast: true
