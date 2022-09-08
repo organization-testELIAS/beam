@@ -17,7 +17,7 @@
 
 # To learn more about GitHub Actions in Apache Beam check the CI.md
 
-name: SQL Precommit
+name: PreCommit SQL
 
 on:
   workflow_dispatch:
@@ -48,7 +48,7 @@ jobs:
 
   sql-precommit:
     needs: set-properties
-    name: Run SQL Precommit
+    name: Run PreCommit SQL
     runs-on: self-hosted
     strategy:
       fail-fast: true
