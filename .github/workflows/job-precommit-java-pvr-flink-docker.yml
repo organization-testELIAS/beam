@@ -59,6 +59,7 @@ jobs:
         java: ${{fromJson(needs.set-properties.outputs.properties).JavaTestProperties.SUPPORTED_VERSIONS}}
         flink: ${{fromJson(needs.set-properties.outputs.properties).JavaTestProperties.FLINK_VERSIONS}}
         exclude: #TODO: Remove exclude and retest once issue https://github.com/apache/beam/issues/23066 gets resolved.
+          - java: "11"
           - java: "17"
     timeout-minutes: 480
     steps:
