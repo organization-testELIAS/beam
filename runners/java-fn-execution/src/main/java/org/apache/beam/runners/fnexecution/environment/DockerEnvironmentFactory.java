@@ -94,7 +94,7 @@ public class DockerEnvironmentFactory implements EnvironmentFactory {
         RunnerApi.DockerPayload.parseFrom(environment.getPayload());
 
     // Prepare docker invocation.
-    String containerImage = "apache/beam_java11_sdk:2.41.0";//dockerPayload.getContainerImage();
+    String containerImage = dockerPayload.getContainerImage();
     // TODO: https://github.com/apache/beam/issues/18929 The default service address will not
     // work for Docker for Mac.
     String provisionEndpoint = provisioningServiceServer.getApiServiceDescriptor().getUrl();
