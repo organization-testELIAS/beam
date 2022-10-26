@@ -21,6 +21,40 @@ plugins {
   id("com.gradle.enterprise") version "3.4.1" apply false
 }
 
+buildscript{
+    repositories {
+        mavenCentral()
+        flatDir {
+     //       dirs("/Users/elias.segundo/downloads/commons-lang3-3.12.0")
+            //dirs("/Users/elias.segundo/downloads/redis")
+            dirs("libs")
+        }
+        
+    }
+    dependencies{
+   //     classpath("org.apache.commons:commons-lang3:3.12.0")
+     //   classpath("net.idlestate:gradle-redis-build-cache:1.3.0")
+        classpath("androidx.build.gradle.gcpbuildcache:plugin:1.0.0-beta01")
+        classpath("com.google.cloud:google-cloud-storage:2.9.3")
+    }
+}
+
+
+import androidx.build.gradle.gcpbuildcache.GcpBuildCache
+import androidx.build.gradle.gcpbuildcache.GcpBuildCacheServiceFactory
+import androidx.build.gradle.gcpbuildcache.ExportedKeyGcpCredentials
+
+
+buildCache {
+    registerBuildCacheService(GcpBuildCache::class, GcpBuildCacheServiceFactory::class)
+    remote(GcpBuildCache::class) {
+        projectId = "apache-beam-testing"
+        bucketName = "gradle-cache-tests"
+        isPush = true
+        isEnabled = true
+    }
+}
+
 
 // Plugins which require online access should not be enabled when running in offline mode.
 if (!gradle.startParameter.isOffline) {
@@ -60,6 +94,7 @@ include(":model:pipeline")
 include(":playground")
 include(":playground:backend")
 include(":playground:frontend")
+include(":playground:frontend:playground_components")
 include(":playground:backend:containers")
 include(":playground:backend:containers:java")
 include(":playground:backend:containers:go")
@@ -115,6 +150,7 @@ include(":sdks:java:bom")
 include(":sdks:java:bom:gcp")
 include(":sdks:java:build-tools")
 include(":sdks:java:container")
+include(":sdks:java:container:agent")
 include(":sdks:java:container:java8")
 include(":sdks:java:container:java11")
 include(":sdks:java:container:java17")
@@ -194,6 +230,7 @@ include(":sdks:java:io:pulsar")
 include(":sdks:java:io:rabbitmq")
 include(":sdks:java:io:redis")
 include(":sdks:java:io:solr")
+include(":sdks:java:io:sparkreceiver")
 include(":sdks:java:io:snowflake")
 include(":sdks:java:io:snowflake:expansion-service")
 include(":sdks:java:io:splunk")
@@ -216,6 +253,7 @@ include(":sdks:java:testing:tpcds")
 include(":sdks:java:testing:watermarks")
 include(":sdks:python")
 include(":sdks:python:apache_beam:testing:load_tests")
+include(":sdks:python:apache_beam:testing:benchmarks:nexmark")
 include(":sdks:python:container")
 include(":sdks:python:container:py37")
 include(":sdks:python:container:py38")
@@ -236,8 +274,7 @@ include(":sdks:python:test-suites:tox:pycommon")
 include(":sdks:python:test-suites:tox:py37")
 include(":sdks:python:test-suites:tox:py38")
 include(":sdks:python:test-suites:tox:py39")
-include(":vendor:grpc-1_43_2")
-include(":vendor:bytebuddy-1_12_8")
+include(":vendor:grpc-1_48_1")
 include(":vendor:calcite-1_28_0")
 include(":vendor:guava-26_0-jre")
 include(":website")
