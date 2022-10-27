@@ -51,8 +51,8 @@ jobs:
         run: echo "RC_TAG=v${{env.RELEASE_VERSION}}-RC${{github.event.inputs.RC_NUM}}" >> $GITHUB_ENV    
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          ref: ${{env.RC_TAG}}
+#        with:
+#          ref: ${{env.RC_TAG}}
       - name: Setup Go 
         uses: actions/setup-go@v3
         with:
